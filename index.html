@@ -1,1 +1,893 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio - Emmanuel TIENMENI</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 100%);
+            color: #e0e0e0;
+            line-height: 1.6;
+        }
+
+        .navbar {
+            background: rgba(10, 14, 39, 0.95);
+            padding: 1rem 2rem;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 20px rgba(0, 150, 255, 0.3);
+            border-bottom: 2px solid #0096ff;
+        }
+
+        .navbar ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 2rem;
+        }
+
+        .navbar a {
+            color: #00d4ff;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+        }
+
+        .navbar a:hover {
+            background: rgba(0, 150, 255, 0.2);
+            color: #fff;
+        }
+
+        .dropdown {
+            position: relative;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background: #1a1f3a;
+            min-width: 200px;
+            box-shadow: 0 8px 16px rgba(0, 150, 255, 0.4);
+            border-radius: 5px;
+            top: 100%;
+            left: 0;
+        }
+
+        .dropdown-content a {
+            display: block;
+            padding: 0.8rem 1rem;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 100px auto 50px;
+            padding: 2rem;
+        }
+
+        .section {
+            display: none;
+            animation: fadeIn 0.5s;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .hero {
+            text-align: center;
+            padding: 4rem 2rem;
+            background: linear-gradient(135deg, rgba(0, 150, 255, 0.1) 0%, rgba(0, 212, 255, 0.05) 100%);
+            border-radius: 15px;
+            border: 1px solid rgba(0, 150, 255, 0.3);
+            box-shadow: 0 10px 40px rgba(0, 150, 255, 0.2);
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            color: #00d4ff;
+            margin-bottom: 1rem;
+            text-shadow: 0 0 20px rgba(0, 212, 255, 0.5);
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            color: #b0b0b0;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background: linear-gradient(135deg, #0096ff 0%, #00d4ff 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.3s;
+            box-shadow: 0 5px 20px rgba(0, 150, 255, 0.4);
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(0, 150, 255, 0.6);
+        }
+
+        .card {
+            background: rgba(26, 31, 58, 0.8);
+            padding: 2rem;
+            margin: 2rem 0;
+            border-radius: 10px;
+            border: 1px solid rgba(0, 150, 255, 0.3);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .card h2 {
+            color: #00d4ff;
+            margin-bottom: 1rem;
+            font-size: 2rem;
+        }
+
+        .card h3 {
+            color: #0096ff;
+            margin-top: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .skills {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .skill-item {
+            background: rgba(0, 150, 255, 0.1);
+            padding: 1.5rem;
+            border-radius: 8px;
+            border-left: 4px solid #00d4ff;
+        }
+
+        .skill-item h4 {
+            color: #00d4ff;
+            margin-bottom: 0.5rem;
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .project-card {
+            background: rgba(26, 31, 58, 0.6);
+            padding: 1.5rem;
+            border-radius: 10px;
+            border: 1px solid rgba(0, 150, 255, 0.3);
+            transition: all 0.3s;
+        }
+
+        .project-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 150, 255, 0.3);
+        }
+
+        .contact-form {
+            max-width: 600px;
+            margin: 2rem auto;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #00d4ff;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.8rem;
+            background: rgba(26, 31, 58, 0.8);
+            border: 1px solid rgba(0, 150, 255, 0.3);
+            border-radius: 5px;
+            color: #e0e0e0;
+            font-family: inherit;
+        }
+
+        .form-group textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        .contact-info {
+            text-align: center;
+            margin-top: 3rem;
+        }
+
+        .contact-info p {
+            margin: 0.5rem 0;
+            font-size: 1.1rem;
+        }
+
+        .code-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.03;
+            z-index: -1;
+            font-family: monospace;
+            font-size: 12px;
+            overflow: hidden;
+            color: #00d4ff;
+        }
+    </style>
+</head>
+<body>
+    <div class="code-bg">
+        &lt;server&gt; &lt;network&gt; &lt;security&gt; &lt;infrastructure&gt; &lt;/infrastructure&gt; &lt;/security&gt; &lt;/network&gt; &lt;/server&gt;
+    </div>
+
+    <nav class="navbar">
+        <ul>
+            <li><a href="#" onclick="showSection('accueil')">Accueil</a></li>
+            <li><a href="#" onclick="showSection('profil')">Mon Profil</a></li>
+            <li><a href="#" onclick="showSection('bts')">BTS SIO</a></li>
+            <li class="dropdown">
+                <a href="#" onclick="showSection('stages')">Stages ▼</a>
+                <div class="dropdown-content">
+                    <a href="#" onclick="showSection('missions')">Missions réalisées</a>
+                    <a href="#" onclick="showSection('organigramme')">Organigramme</a>
+                    <a href="#" onclick="showSection('services')">Services</a>
+                </div>
+            </li>
+            <li><a href="#" onclick="showSection('projets')">Mes Projets</a></li>
+            <li><a href="#" onclick="showSection('epreuves')">Épreuves</a></li>
+            <li><a href="#" onclick="showSection('veille')">Veille Technologique</a></li>
+            <li><a href="#" onclick="showSection('contact')">Contact</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <!-- ACCUEIL -->
+        <section id="accueil" class="section active">
+            <div class="hero">
+                <h1>Bienvenue sur le Portfolio d'Emmanuel TIENMENI</h1>
+                <p>Étudiant en BTS SIO option SISR | Passionné par les infrastructures réseau et la cybersécurité</p>
+                <p style="max-width: 800px; margin: 0 auto 2rem; font-size: 1rem;">
+                    Plongez dans l'univers de l'administration système et des réseaux. Je vous invite à découvrir mon parcours de formation, mes compétences techniques et les projets que j'ai réalisés dans le domaine des infrastructures informatiques et de la sécurité.
+                </p>
+                <a href="#" onclick="showSection('profil')" class="btn">Découvrir mon profil</a>
+            </div>
+        </section>
+
+        <!-- MON PROFIL -->
+        <section id="profil" class="section">
+            <div class="card">
+                <h2>Mon Profil</h2>
+                <p>
+                    Actuellement en deuxième année de BTS Services Informatiques aux Organisations, option Solutions d'Infrastructure, Systèmes et Réseaux (SISR) à ITIC Paris, je développe mes compétences dans l'administration des systèmes et des réseaux informatiques.
+                </p>
+                <p style="margin-top: 1rem;">
+                    Ma formation me permet d'acquérir une expertise technique solide et une vision globale des infrastructures IT, tout en me préparant aux défis de la transformation numérique des entreprises.
+                </p>
+
+                <h3>Compétences Clés</h3>
+                <div class="skills">
+                    <div class="skill-item">
+                        <h4>🖥️ Windows Server</h4>
+                        <p>Administration Active Directory, gestion des stratégies de groupe (GPO), configuration et déploiement de services réseau</p>
+                    </div>
+                    <div class="skill-item">
+                        <h4>🌐 Réseaux</h4>
+                        <p>Configuration MikroTik, pfSense, routage, switching, architecture réseau et interconnexion</p>
+                    </div>
+                    <div class="skill-item">
+                        <h4>🔒 Sécurité</h4>
+                        <p>Politiques de sécurité, pare-feu, surveillance réseau, gestion des vulnérabilités et bonnes pratiques</p>
+                    </div>
+                    <div class="skill-item">
+                        <h4>👥 Support Client</h4>
+                        <p>Assistance technique, gestion d'incidents, ticketing, documentation et formation utilisateurs</p>
+                    </div>
+                </div>
+
+                <div style="text-align: center; margin-top: 3rem;">
+                    <button onclick="showCV()" class="btn">📄 Télécharger mon CV</button>
+                </div>
+            </div>
+
+            <!-- CV Modal -->
+            <div id="cvModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.95); z-index: 2000; overflow-y: auto;">
+                <div style="max-width: 1000px; margin: 2rem auto; padding: 2rem; position: relative;">
+                    <button onclick="closeCV()" style="position: absolute; top: 1rem; right: 1rem; background: #00d4ff; border: none; color: white; font-size: 2rem; width: 50px; height: 50px; border-radius: 50%; cursor: pointer; font-weight: bold; z-index: 10;">×</button>
+                    
+                    <div style="background: white; color: #000; padding: 3rem; border-radius: 10px; box-shadow: 0 10px 50px rgba(0, 212, 255, 0.5); font-family: Arial, sans-serif; font-size: 14px; line-height: 1.6;">
+                        <div style="display: grid; grid-template-columns: 1fr 2.5fr; gap: 2rem;">
+                            <!-- COLONNE GAUCHE -->
+                            <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 8px;">
+                                <div style="margin-bottom: 2rem;">
+                                    <h1 style="font-size: 1.8rem; margin: 0; color: #2c3e50; font-weight: bold;">EMMANUEL</h1>
+                                    <h1 style="font-size: 1.8rem; margin: 0; color: #2c3e50; font-weight: bold;">ROSWELT</h1>
+                                    <h2 style="font-size: 1.5rem; margin: 0.3rem 0 0 0; color: #34495e; font-weight: bold;">TIENMENI NGUEGA</h2>
+                                </div>
+
+                                <div style="margin-bottom: 2rem;">
+                                    <h3 style="font-size: 1rem; color: #2c3e50; margin-bottom: 1rem; font-weight: bold; border-bottom: 2px solid #3498db; padding-bottom: 0.5rem;">COMPÉTENCES</h3>
+                                    <p style="margin: 0.8rem 0; font-size: 0.9rem; line-height: 1.5;">Gestion Active Directory et déploiement de GPO (Windows server)</p>
+                                    <p style="margin: 0.8rem 0; font-size: 0.9rem; line-height: 1.5;">Paramétrage d'équipements Cisco, MikroTik et pare-feu pfSense</p>
+                                    <p style="margin: 0.8rem 0; font-size: 0.9rem; line-height: 1.5;">Configuration et maintenance des services DHCP et DNS (Windows & Linux)</p>
+                                    <p style="margin: 0.8rem 0; font-size: 0.9rem; line-height: 1.5;">Créativité</p>
+                                    <p style="margin: 0.8rem 0; font-size: 0.9rem; line-height: 1.5;">Support & relation client</p>
+                                    <p style="margin: 0.8rem 0; font-size: 0.9rem; line-height: 1.5;">Esprit d'équipe & gestion du stress</p>
+                                </div>
+
+                                <div style="margin-bottom: 2rem;">
+                                    <h3 style="font-size: 1rem; color: #2c3e50; margin-bottom: 1rem; font-weight: bold; border-bottom: 2px solid #3498db; padding-bottom: 0.5rem;">CONTACT</h3>
+                                    <p style="margin: 0.5rem 0; font-size: 0.9rem;">tienmenir@gmail.com</p>
+                                    <p style="margin: 0.5rem 0; font-size: 0.9rem;">+33 619 85 43 75</p>
+                                    <p style="margin: 0.5rem 0; font-size: 0.9rem;">119 rue damrémont, 75018</p>
+                                </div>
+
+                                <div style="margin-bottom: 2rem;">
+                                    <h3 style="font-size: 1rem; color: #2c3e50; margin-bottom: 1rem; font-weight: bold; border-bottom: 2px solid #3498db; padding-bottom: 0.5rem;">LANGUE</h3>
+                                    <p style="margin: 0.5rem 0; font-size: 0.9rem;">Anglais B2</p>
+                                </div>
+
+                                <div style="margin-bottom: 2rem;">
+                                    <h3 style="font-size: 1rem; color: #2c3e50; margin-bottom: 1rem; font-weight: bold; border-bottom: 2px solid #3498db; padding-bottom: 0.5rem;">CENTRES D'INTÉRÊTS</h3>
+                                    <p style="margin: 0.5rem 0; font-size: 0.9rem;">Montage vidéo (Capcut)</p>
+                                    <p style="margin: 0.5rem 0; font-size: 0.9rem;">Football</p>
+                                    <p style="margin: 0.5rem 0; font-size: 0.9rem;">Natation</p>
+                                </div>
+
+                                <div>
+                                    <h3 style="font-size: 1rem; color: #2c3e50; margin-bottom: 1rem; font-weight: bold; border-bottom: 2px solid #3498db; padding-bottom: 0.5rem;">CERTIFICATION</h3>
+                                    <p style="margin: 0.5rem 0; font-size: 0.9rem;">ANSI</p>
+                                </div>
+                            </div>
+
+                            <!-- COLONNE DROITE -->
+                            <div>
+                                <div style="background: #ecf0f1; padding: 1.5rem; border-radius: 8px; margin-bottom: 2rem;">
+                                    <p style="margin: 0; text-align: justify; font-size: 0.95rem; line-height: 1.6;">
+                                        Étudiant en BTS 2 SIO (option SISR) à ITIC Paris, passionné par les infrastructures réseaux et l'administration systèmes. Rigoureux, méthodique et doté d'un bon esprit d'équipe. Je suis à la recherche d'une alternance en administration systèmes et réseaux afin de renforcer mes compétences sur le terrain.
+                                    </p>
+                                </div>
+
+                                <div style="margin-bottom: 2rem;">
+                                    <h3 style="font-size: 1.1rem; color: #2c3e50; margin-bottom: 1rem; font-weight: bold; border-bottom: 3px solid #3498db; padding-bottom: 0.5rem;">EXPÉRIENCE PROFESSIONNELLE</h3>
+                                    
+                                    <div style="margin-bottom: 1.5rem;">
+                                        <h4 style="font-size: 1rem; color: #2c3e50; margin: 0; font-weight: bold;">Technicien support informatique</h4>
+                                        <p style="margin: 0.3rem 0; font-size: 0.9rem; color: #7f8c8d; font-weight: bold;">03/11/2025-13/12/2025</p>
+                                        <p style="margin: 0.3rem 0; font-size: 0.9rem; font-style: italic;">Cohérence-IT - Chaumontel - Stage</p>
+                                        <p style="margin: 0.8rem 0 0.3rem 0; font-size: 0.9rem;"><strong>Interconnexion de sites :</strong> Mise en œuvre d'un VPN Site-to-Site sécurisé (WireGuard) entre un routeur MikroTik et un VPS distant.</p>
+                                        <p style="margin: 0.3rem 0; font-size: 0.9rem;"><strong>Gestion d'incident critique :</strong> Rétablissement des services réseau suite à une coupure électrique majeure et corruption du contrôleur de domaine.</p>
+                                        <p style="margin: 0.3rem 0; font-size: 0.9rem;"><strong>Dépannage système :</strong> Récupération de la base Active Directory et redémarrage des services DHCP/DNS pour restaurer l'accès internet des utilisateurs.</p>
+                                    </div>
+
+                                    <div style="margin-bottom: 1.5rem;">
+                                        <h4 style="font-size: 1rem; color: #2c3e50; margin: 0; font-weight: bold;">Technicien support informatique</h4>
+                                        <p style="margin: 0.3rem 0; font-size: 0.9rem; color: #7f8c8d; font-weight: bold;">02/07/2025-31/07/2025</p>
+                                        <p style="margin: 0.3rem 0; font-size: 0.9rem; font-style: italic;">Cohérence-IT - Chaumontel -Stage</p>
+                                        <p style="margin: 0.8rem 0 0.3rem 0; font-size: 0.9rem;">• <strong>Déploiement Active Directory :</strong> Création de l'arborescence (UO, Groupes), gestion des utilisateurs et sécurisation du domaine.</p>
+                                        <p style="margin: 0.3rem 0 0.3rem 1rem; font-size: 0.9rem;">• <strong>Automatisation par GPO :</strong></p>
+                                        <p style="margin: 0.3rem 0 0.3rem 2rem; font-size: 0.9rem;">• Installation silencieuse de logiciels (Google Chrome) sur l'ensemble du parc.</p>
+                                        <p style="margin: 0.3rem 0 0.3rem 2rem; font-size: 0.9rem;">• Configuration de lecteurs réseaux automatisés par Unité d'Organisation (UO).</p>
+                                        <p style="margin: 0.3rem 0 0.3rem 2rem; font-size: 0.9rem;">• Personnalisation de l'environnement utilisateur (Fond d'écran/Image de marque entreprise).</p>
+                                    </div>
+                                </div>
+
+                                <div style="margin-bottom: 2rem;">
+                                    <h3 style="font-size: 1.1rem; color: #2c3e50; margin-bottom: 1rem; font-weight: bold; border-bottom: 3px solid #3498db; padding-bottom: 0.5rem;">FORMATIONS</h3>
+                                    
+                                    <div style="margin-bottom: 1rem;">
+                                        <h4 style="font-size: 1rem; color: #2c3e50; margin: 0; font-weight: bold;">1/2 BTS SIO SISR: Services Informatiques au Organisations,</h4>
+                                        <p style="margin: 0.3rem 0; font-size: 0.9rem; color: #7f8c8d; font-weight: bold;">09/2024 - 06/2026</p>
+                                        <p style="margin: 0.3rem 0; font-size: 0.9rem; font-style: italic;">ITIC Paris - Paris</p>
+                                    </div>
+
+                                    <div>
+                                        <h4 style="font-size: 1rem; color: #2c3e50; margin: 0; font-weight: bold;">Baccalauréat D: Science, Mathématiques, Physique, Chimie, Informatique</h4>
+                                        <p style="margin: 0.3rem 0; font-size: 0.9rem; color: #7f8c8d; font-weight: bold;">09/2023 - 06/2024</p>
+                                        <p style="margin: 0.3rem 0; font-size: 0.9rem; font-style: italic;">Collège François-Xavier Vogt - Yaoundé - Cameroun</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Bouton de fermeture -->
+                        <div style="text-align: center; margin-top: 2rem; padding-top: 1.5rem; border-top: 2px solid #ecf0f1;">
+                            <button onclick="window.print()" style="background: #3498db; color: white; border: none; padding: 0.8rem 1.5rem; border-radius: 5px; font-size: 0.95rem; font-weight: 600; cursor: pointer; margin-right: 1rem;">🖨️ Imprimer</button>
+                            <button onclick="closeCV()" style="background: #95a5a6; color: white; border: none; padding: 0.8rem 1.5rem; border-radius: 5px; font-size: 0.95rem; font-weight: 600; cursor: pointer;">Fermer</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- BTS SIO -->
+        <section id="bts" class="section">
+            <div class="card">
+                <h2>BTS SIO - Services Informatiques aux Organisations</h2>
+                <p>
+                    Le BTS SIO est un diplôme national de niveau 5 qui forme des techniciens capables de gérer le parc informatique d'une organisation et d'accompagner les utilisateurs dans l'utilisation des outils numériques.
+                </p>
+
+                <h3>Option SISR - Solutions d'Infrastructure, Systèmes et Réseaux</h3>
+                <p>
+                    L'option SISR se concentre sur l'administration des systèmes et des réseaux. Elle forme des spécialistes capables de :
+                </p>
+                <ul style="margin-left: 2rem; margin-top: 1rem;">
+                    <li>Installer, configurer et administrer des serveurs et des équipements réseau</li>
+                    <li>Gérer la sécurité des infrastructures informatiques</li>
+                    <li>Assurer le support technique et la maintenance des systèmes</li>
+                    <li>Mettre en place des solutions de virtualisation et de sauvegarde</li>
+                    <li>Optimiser les performances du réseau et garantir sa disponibilité</li>
+                </ul>
+
+                <h3>Compétences développées</h3>
+                <div class="skills">
+                    <div class="skill-item">
+                        <h4>Administration Système</h4>
+                        <p>Windows Server, Linux, virtualisation, automatisation des tâches</p>
+                    </div>
+                    <div class="skill-item">
+                        <h4>Infrastructure Réseau</h4>
+                        <p>Conception, déploiement et administration des réseaux d'entreprise</p>
+                    </div>
+                    <div class="skill-item">
+                        <h4>Cybersécurité</h4>
+                        <p>Protection des données, pare-feu, politiques de sécurité, analyse de risques</p>
+                    </div>
+                    <div class="skill-item">
+                        <h4>Support & Assistance</h4>
+                        <p>Gestion d'incidents, résolution de problèmes, accompagnement utilisateurs</p>
+                    </div>
+                </div>
+
+                <h3>Perspectives professionnelles</h3>
+                <p>
+                    Cette formation ouvre la voie à des métiers tels que : Administrateur systèmes et réseaux, Technicien infrastructure, Responsable sécurité informatique, Support technique, ou encore Gestionnaire de parc informatique.
+                </p>
+            </div>
+        </section>
+
+        <!-- STAGES - MISSIONS -->
+        <section id="missions" class="section">
+            <div class="card">
+                <h2>Missions Réalisées chez Cohérence-IT</h2>
+                
+                <h3>🔧 Gestion d'Incidents Critiques</h3>
+                <p>
+                    Prise en charge et résolution d'incidents techniques urgents impactant les utilisateurs et les services critiques de l'entreprise. Diagnostic rapide des pannes, intervention sur site ou à distance, et mise en place de solutions palliatives et définitives.
+                </p>
+                <ul style="margin-left: 2rem; margin-top: 0.5rem;">
+                    <li>Traitement des tickets d'incidents via système de ticketing</li>
+                    <li>Diagnostic et résolution de problèmes matériels et logiciels</li>
+                    <li>Rétablissement rapide des services en cas de panne</li>
+                    <li>Documentation des interventions et création de bases de connaissances</li>
+                    <li>Communication avec les utilisateurs et les équipes techniques</li>
+                </ul>
+
+                <h3>🏢 Déploiement Active Directory</h3>
+                <p>
+                    Participation au déploiement et à la configuration d'Active Directory pour centraliser la gestion des utilisateurs, des ordinateurs et des ressources réseau. Mise en place de stratégies de groupe (GPO) pour standardiser les configurations et renforcer la sécurité.
+                </p>
+                <ul style="margin-left: 2rem; margin-top: 0.5rem;">
+                    <li>Installation et configuration d'un contrôleur de domaine</li>
+                    <li>Création et gestion des unités organisationnelles (OU)</li>
+                    <li>Configuration des stratégies de groupe (GPO) pour la sécurité et les paramètres utilisateurs</li>
+                    <li>Intégration des postes de travail au domaine</li>
+                    <li>Gestion des droits d'accès et des permissions</li>
+                    <li>Documentation de l'architecture et des procédures</li>
+                </ul>
+
+                <h3>📊 Compétences Acquises</h3>
+                <div class="skills">
+                    <div class="skill-item">
+                        <h4>Analyse & Diagnostic</h4>
+                        <p>Capacité à identifier rapidement la source des problèmes techniques et à proposer des solutions adaptées</p>
+                    </div>
+                    <div class="skill-item">
+                        <h4>Administration Système</h4>
+                        <p>Maîtrise des outils d'administration Windows Server et des services d'annuaire</p>
+                    </div>
+                    <div class="skill-item">
+                        <h4>Gestion de Projet</h4>
+                        <p>Organisation, planification et suivi des interventions techniques</p>
+                    </div>
+                    <div class="skill-item">
+                        <h4>Communication</h4>
+                        <p>Relation client, rédaction de documentation technique, travail en équipe</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- STAGES - ORGANIGRAMME -->
+        <section id="organigramme" class="section">
+            <div class="card">
+                <h2>Organigramme - Cohérence-IT</h2>
+                <p style="margin-bottom: 2rem;">Structure organisationnelle de l'entreprise d'accueil lors de mon stage.</p>
+                
+                <div style="background: rgba(0, 150, 255, 0.05); padding: 2rem; border-radius: 10px; border: 1px solid rgba(0, 150, 255, 0.2);">
+                    <div style="text-align: center; margin-bottom: 3rem;">
+                        <div style="display: inline-block; background: rgba(0, 212, 255, 0.2); padding: 1.5rem 2rem; border-radius: 10px; border: 2px solid #00d4ff;">
+                            <strong style="color: #00d4ff; font-size: 1.2rem;">Direction Générale</strong>
+                        </div>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; margin-top: 2rem;">
+                        <div style="text-align: center;">
+                            <div style="background: rgba(0, 150, 255, 0.2); padding: 1rem; border-radius: 8px; border: 1px solid #0096ff;">
+                                <strong style="color: #0096ff;">Direction Technique</strong>
+                            </div>
+                            <div style="margin-top: 1rem; padding: 1rem; background: rgba(26, 31, 58, 0.5); border-radius: 5px;">
+                                <p>- Responsable Infrastructure</p>
+                                <p>- Administrateurs Systèmes</p>
+                                <p>- Techniciens Support</p>
+                            </div>
+                        </div>
+
+                        <div style="text-align: center;">
+                            <div style="background: rgba(0, 150, 255, 0.2); padding: 1rem; border-radius: 8px; border: 1px solid #0096ff;">
+                                <strong style="color: #0096ff;">Direction Sécurité</strong>
+                            </div>
+                            <div style="margin-top: 1rem; padding: 1rem; background: rgba(26, 31, 58, 0.5); border-radius: 5px;">
+                                <p>- Responsable Cybersécurité</p>
+                                <p>- Analystes Sécurité</p>
+                                <p>- Auditeurs IT</p>
+                            </div>
+                        </div>
+
+                        <div style="text-align: center;">
+                            <div style="background: rgba(0, 150, 255, 0.2); padding: 1rem; border-radius: 8px; border: 1px solid #0096ff;">
+                                <strong style="color: #0096ff;">Direction Clients</strong>
+                            </div>
+                            <div style="margin-top: 1rem; padding: 1rem; background: rgba(26, 31, 58, 0.5); border-radius: 5px;">
+                                <p>- Chefs de Projet</p>
+                                <p>- Consultants IT</p>
+                                <p>- Support Client</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <p style="margin-top: 2rem; text-align: center; color: #b0b0b0;">
+                    <em>Stage effectué au sein de l'équipe Infrastructure & Support</em>
+                </p>
+            </div>
+        </section>
+
+        <!-- STAGES - SERVICES -->
+        <section id="services" class="section">
+            <div class="card">
+                <h2>Services - Cohérence-IT</h2>
+                <p style="margin-bottom: 2rem;">
+                    Cohérence-IT est une entreprise spécialisée dans les services d'infrastructure informatique et la transformation numérique des organisations.
+                </p>
+
+                <div class="skills">
+                    <div class="skill-item">
+                        <h4>🏗️ Infrastructure & Cloud</h4>
+                        <p>Conception, déploiement et maintenance d'infrastructures IT on-premise et cloud. Migration vers le cloud, virtualisation, optimisation des performances.</p>
+                    </div>
+                    <div class="skill-item">
+                        <h4>🔐 Cybersécurité</h4>
+                        <p>Audits de sécurité, mise en place de solutions de protection, gestion des incidents de sécurité, conformité RGPD et formation des équipes.</p>
+                    </div>
+                    <div class="skill-item">
+                        <h4>🌐 Réseaux & Télécoms</h4>
+                        <p>Architecture réseau, déploiement d'équipements, optimisation des flux, supervision et gestion de la qualité de service.</p>
+                    </div>
+                    <div class="skill-item">
+                        <h4>💼 Infogérance</h4>
+                        <p>Gestion complète du parc informatique, maintenance préventive et corrective, support utilisateurs 24/7, gestion des sauvegardes.</p>
+                    </div>
+                    <div class="skill-item">
+                        <h4>📞 Support & Assistance</h4>
+                        <p>Helpdesk multicanal, assistance technique à distance, formation des utilisateurs, gestion des incidents et des demandes.</p>
+                    </div>
+                    <div class="skill-item">
+                        <h4>🎯 Conseil & Stratégie IT</h4>
+                        <p>Accompagnement dans la transformation digitale, définition de stratégies IT, choix des solutions adaptées aux besoins métiers.</p>
+                    </div>
+                </div>
+
+                <h3 style="margin-top: 2rem;">Valeurs de l'entreprise</h3>
+                <p>
+                    Cohérence-IT s'engage à fournir des solutions technologiques fiables, sécurisées et adaptées aux enjeux business de ses clients, tout en privilégiant l'excellence opérationnelle et l'innovation continue.
+                </p>
+            </div>
+        </section>
+
+        <!-- MES PROJETS -->
+        <section id="projets" class="section">
+            <div class="card">
+                <h2>Mes Projets & Travaux Pratiques</h2>
+                <p>Découvrez les réalisations techniques effectuées durant ma formation en BTS SIO option SISR.</p>
+
+                <div class="projects-grid">
+                    <div class="project-card">
+                        <h3>🖥️ Serveur Active Directory</h3>
+                        <p>Mise en place d'un contrôleur de domaine Windows Server avec gestion des utilisateurs, groupes et stratégies de sécurité.</p>
+                        <p style="color: #00d4ff; margin-top: 1rem;"><strong>Technologies :</strong> Windows Server 2022, AD DS, GPO</p>
+                    </div>
+
+                    <div class="project-card">
+                        <h3>🌐 Architecture Réseau</h3>
+                        <p>Conception et simulation d'une infrastructure réseau d'entreprise avec VLAN, routage inter-VLAN et segmentation sécurisée.</p>
+                        <p style="color: #00d4ff; margin-top: 1rem;"><strong>Technologies :</strong> Cisco Packet Tracer, MikroTik</p>
+                    </div>
+
+                    <div class="project-card">
+                        <h3>🔒 Pare-feu pfSense</h3>
+                        <p>Configuration d'un pare-feu open-source avec règles de filtrage, VPN site-to-site et portail captif pour la sécurité réseau.</p>
+                        <p style="color: #00d4ff; margin-top: 1rem;"><strong>Technologies :</strong> pfSense, OpenVPN, Suricata</p>
+                    </div>
+
+                    <div class="project-card">
+                        <h3>📡 Serveur DHCP/DNS</h3>
+                        <p>Déploiement et configuration de services réseau essentiels pour l'attribution automatique d'adresses IP et la résolution de noms.</p>
+                        <p style="color: #00d4ff; margin-top: 1rem;"><strong>Technologies :</strong> Windows Server, DHCP, DNS</p>
+                    </div>
+
+                    <div class="project-card">
+                        <h3>💾 Solution de Sauvegarde</h3>
+                        <p>Mise en œuvre d'une stratégie de sauvegarde automatisée avec planification, rotation et restauration de données critiques.</p>
+                        <p style="color: #00d4ff; margin-top: 1rem;"><strong>Technologies :</strong> Veeam, Scripts PowerShell</p>
+                    </div>
+
+                    <div class="project-card">
+                        <h3>🔧 Virtualisation</h3>
+                        <p>Création d'un environnement virtualisé avec plusieurs machines virtuelles pour tests et développement d'infrastructures.</p>
+                        <p style="color: #00d4ff; margin-top: 1rem;"><strong>Technologies :</strong> VMware, Hyper-V, VirtualBox</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ÉPREUVES -->
+        <section id="epreuves" class="section">
+            <div class="card">
+                <h2>Préparation aux Épreuves du BTS SIO</h2>
+
+                <h3>📘 Épreuve E4 - Support et mise à disposition de services informatiques</h3>
+                <p>
+                    Cette épreuve évalue la capacité à gérer le patrimoine informatique, à répondre aux incidents et aux demandes d'assistance, et à développer la présence en ligne de l'organisation.
+                </p>
+                <div style="background: rgba(0, 150, 255, 0.1); padding: 1.5rem; border-radius: 8px; margin-top: 1rem;">
+                    <h4 style="color: #00d4ff;">Compétences évaluées :</h4>
+                    <ul style="margin-left: 2rem; margin-top: 0.5rem;">
+                        <li>Gérer le patrimoine informatique</li>
+                        <li>Répondre aux incidents et aux demandes d'assistance et d'évolution</li>
+                        <li>Développer la présence en ligne de l'organisation</li>
+                        <li>Travailler en mode projet</li>
+                        <li>Mettre à disposition des utilisateurs un service informatique</li>
+                    </ul>
+                    <p style="margin-top: 1rem;"><strong>Format :</strong> Pratique en laboratoire (4h) + Oral (40 min)</p>
+                    <p><strong>Coefficient :</strong> 5</p>
+                </div>
+
+                <h3 style="margin-top: 2rem;">📗 Épreuve E6 - Cybersécurité des services informatiques</h3>
+                <p>
+                    Cette épreuve porte sur la protection des données et la sécurité des équipements et des usages dans le cadre des services informatiques.
+                </p>
+                <div style="background: rgba(0, 150, 255, 0.1); padding: 1.5rem; border-radius: 8px; margin-top: 1rem;">
+                    <h4 style="color: #00d4ff;">Compétences évaluées :</h4>
+                    <ul style="margin-left: 2rem; margin-top: 0.5rem;">
+                        <li>Protéger les données à caractère personnel</li>
+                        <li>Préserver l'identité numérique de l'organisation</li>
+                        <li>Sécuriser les équipements et les usages des utilisateurs</li>
+                        <li>Garantir la disponibilité, l'intégrité et la confidentialité des services informatiques</li>
+                        <li>Assurer la cybersécurité d'une infrastructure réseau</li>
+                    </ul>
+                    <p style="margin-top: 1rem;"><strong>Format :</strong> Écrit (3h) + Oral (30 min)</p>
+                    <p><strong>Coefficient :</strong> 5</p>
+                </div>
+
+                <h3 style="margin-top: 2rem;">📚 Ressources de Préparation</h3>
+                <div class="skills">
+                    <div class="skill-item">
+                        <h4>Documentation Technique</h4>
+                        <p>Fiches de révision, schémas réseau, procédures d'intervention, études de cas</p>
+                    </div>
+                    <div class="skill-item">
+                        <h4>Portefeuille de Compétences</h4>
+                        <p>Réalisations professionnelles, projets, stages documentés avec captures et analyses</p>
+                    </div>
+                    <div class="skill-item">
+                        <h4>Veille Technologique</h4>
+                        <p>Suivis des évolutions, recherches sur les nouvelles technologies et pratiques du secteur</p>
+                    </div>
+                    <div class="skill-item">
+                        <h4>Entraînements Pratiques</h4>
+                        <p>Simulations d'épreuves, TP en laboratoire, présentations orales</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- VEILLE TECHNOLOGIQUE -->
+        <section id="veille" class="section">
+            <div class="card">
+                <h2>Veille Technologique</h2>
+                <p>
+                    La veille technologique est une activité essentielle pour rester informé des évolutions du secteur IT. Je me concentre particulièrement sur la cybersécurité et l'évolution des infrastructures.
+                </p>
+
+                <h3>🔐 Cybersécurité</h3>
+                <div style="background: rgba(0, 150, 255, 0.1); padding: 1.5rem; border-radius: 8px; margin-top: 1rem;">
+                    <h4 style="color: #00d4ff;">Thématiques suivies :</h4>
+                    <ul style="margin-left: 2rem; margin-top: 0.5rem;">
+                        <li><strong>Menaces émergentes :</strong> Ransomware, phishing, attaques DDoS, vulnérabilités zero-day</li>
+                        <li><strong>Solutions de protection :</strong> EDR, XDR, SIEM, pare-feu nouvelle génération</li>
+                        <li><strong>Normes et réglementations :</strong> RGPD, NIS2, ISO 27001, bonnes pratiques ANSSI</li>
+                        <li><strong>Authentication & Identity :</strong> MFA, SSO, gestion des identités, Zero Trust</li>
+                        <li><strong>Sécurité Cloud :</strong> Protection des données, chiffrement, sécurité des conteneurs</li>
+                    </ul>
+                </div>
+
+                <h3 style="margin-top: 2rem;">🏗️ Infrastructures IT</h3>
+                <div style="background: rgba(0, 150, 255, 0.1); padding: 1.5rem; border-radius: 8px; margin-top: 1rem;">
+                    <h4 style="color: #00d4ff;">Domaines d'intérêt :</h4>
+                    <ul style="margin-left: 2rem; margin-top: 0.5rem;">
+                        <li><strong>Cloud Computing :</strong> AWS, Azure, Google Cloud, architectures hybrides</li>
+                        <li><strong>Virtualisation :</strong> VMware, Hyper-V, Proxmox, conteneurisation (Docker, Kubernetes)</li>
+                        <li><strong>Automatisation :</strong> Infrastructure as Code (Terraform, Ansible), DevOps</li>
+                        <li><strong>Réseaux SDN :</strong> Software-Defined Networking, SD-WAN, automatisation réseau</li>
+                        <li><strong>Haute Disponibilité :</strong> Clustering, load balancing, disaster recovery</li>
+                    </ul>
+                </div>
+
+                <h3 style="margin-top: 2rem;">📰 Sources d'Information</h3>
+                <div class="skills">
+                    <div class="skill-item">
+                        <h4>Sites Spécialisés</h4>
+                        <p>LeMagIT, ZDNet, Clubic Pro, Next INpact, Korben, CERT-FR, ANSSI</p>
+                    </div>
+                    <div class="skill-item">
+                        <h4>Blogs Techniques</h4>
+                        <p>Microsoft Tech Community, VMware Blogs, Cisco DevNet, Red Hat Blog</p>
+                    </div>
+                    <div class="skill-item">
+                        <h4>Réseaux Sociaux</h4>
+                        <p>LinkedIn (experts IT), Twitter/X (comptes cybersécurité), Reddit (r/sysadmin, r/networking)</p>
+                    </div>
+                    <div class="skill-item">
+                        <h4>Podcasts & Vidéos</h4>
+                        <p>NoLimitSecu, CompTIA, NetworkChuck, David Bombal, TechWorld with Nana</p>
+                    </div>
+                </div>
+
+                <h3 style="margin-top: 2rem;">🎯 Méthodologie de Veille</h3>
+                <p>
+                    J'utilise des outils d'agrégation (Feedly, Google Alerts) pour centraliser les informations, je consulte régulièrement les bulletins de sécurité officiels, et je participe à des communautés en ligne pour échanger avec d'autres professionnels du secteur.
+                </p>
+            </div>
+        </section>
+
+        <!-- CONTACT -->
+        <section id="contact" class="section">
+            <div class="card">
+                <h2>Me Contacter</h2>
+                <p style="text-align: center; margin-bottom: 2rem;">
+                    N'hésitez pas à me contacter pour toute opportunité professionnelle, stage ou collaboration.
+                </p>
+
+                <form class="contact-form" onsubmit="handleSubmit(event)">
+                    <div class="form-group">
+                        <label for="name">Nom *</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email *</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="subject">Sujet</label>
+                        <input type="text" id="subject" name="subject">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="message">Message *</label>
+                        <textarea id="message" name="message" required></textarea>
+                    </div>
+
+                    <div style="text-align: center;">
+                        <button type="submit" class="btn">Envoyer le message</button>
+                    </div>
+                </form>
+
+                <div class="contact-info">
+                    <h3 style="color: #00d4ff; margin-bottom: 1.5rem;">Mes Coordonnées</h3>
+                    <p>📍 <strong>Adresse :</strong> 119 rue Damrémont, 75018 Paris</p>
+                    <p>📱 <strong>Téléphone :</strong> 06 19 85 43 75</p>
+                    <p>✉️ <strong>Email :</strong> tienmenir@gmail.com</p>
+                    <p style="margin-top: 1.5rem;">🎓 <strong>Formation :</strong> BTS SIO SISR - ITIC Paris</p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        function showSection(sectionId) {
+            // Masquer toutes les sections
+            const sections = document.querySelectorAll('.section');
+            sections.forEach(section => {
+                section.classList.remove('active');
+            });
+
+            // Afficher la section demandée
+            const targetSection = document.getElementById(sectionId);
+            if (targetSection) {
+                targetSection.classList.add('active');
+                // Scroll to top
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+
+        function handleSubmit(event) {
+            event.preventDefault();
+            alert('Merci pour votre message ! Je vous répondrai dans les plus brefs délais.\n\nNote : Ce formulaire est une démonstration. Pour un envoi réel, il faudrait configurer un système backend.');
+            event.target.reset();
+        }
+
+        function showCV() {
+            document.getElementById('cvModal').style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeCV() {
+            document.getElementById('cvModal').style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        // Animation de fond avec du code
+        const codeBg = document.querySelector('.code-bg');
+        let codeText = '';
+        const codeSnippets = [
+            '&lt;server&gt;', '&lt;network&gt;', '&lt;security&gt;', 
+            '&lt;infrastructure&gt;', '&lt;dns&gt;', '&lt;dhcp&gt;',
+            '&lt;firewall&gt;', '&lt;vpn&gt;', '&lt;router&gt;',
+            '&lt;switch&gt;', '&lt;vlan&gt;', '&lt;active-directory&gt;'
+        ];
+
+        for (let i = 0; i < 100; i++) {
+            codeText += codeSnippets[Math.floor(Math.random() * codeSnippets.length)] + ' ';
+        }
+        codeBg.innerHTML = codeText.repeat(10);
+    </script>
+</body>
+</html>
